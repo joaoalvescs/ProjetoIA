@@ -4,6 +4,7 @@ FPS = 60
 
 # ajuste de cores
 BLACK = (0,0,0)
+RED = (208, 22, 22)
 
 # configuracoes de fontes de texto
 START_TEXT_SIZE = 16
