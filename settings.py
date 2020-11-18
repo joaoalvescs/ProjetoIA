@@ -1,3 +1,6 @@
+import pygame
+vec = pygame.math.Vector2
+
 # configuracoes da tela
 WIDTH, HEIGHT = 610, 670
 FPS = 60
@@ -15,4 +18,7 @@ START_TEXT_SIZE = 16
 START_FONT = 'arial black'
 
 # configs do jogador
+PLAYER_START_POS = vec(1,10)
+PLAYER_SPRITE = pygame.image.load('./sprites/player.png')
+PLAYER_SPRITE = pygame.transform.scale(PLAYER_SPRITE, (20, 20))
 # mob configuraçoes
