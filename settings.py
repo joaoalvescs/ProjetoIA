@@ -12,13 +12,12 @@ BLACK = (0,0,0)
 RED = (208, 22, 22)
 GREY = (107, 107, 107)
 WHITE = (255,255,255)
+PLAYER_COLOUR = (0, 0, 255)
 
 # configuracoes de fontes de texto
 START_TEXT_SIZE = 16
 START_FONT = 'arial black'
 
 # configs do jogador
-PLAYER_START_POS = vec(1,10)
-PLAYER_SPRITE = pygame.image.load('./sprites/player.png')
-PLAYER_SPRITE = pygame.transform.scale(PLAYER_SPRITE, (20, 20))
+PLAYER_START_POS = vec(1,1)
 # mob configuraçoes

@@ -87,8 +87,62 @@ class App:
             if event.type == pygame.QUIT:
                 self.running = False
 
+            if event.type == pygame.KEYDOWN:
+                angle = 0
+                #IR P/ ESQUERDA
+                if event.key == pygame.K_LEFT:
+                    if self.player.last_key_pressed == 'right':
+                        angle = -180
+                    if self.player.last_key_pressed == 'down':
+                        angle = -90
+                    if self.player.last_key_pressed == 'up':
+                        angle = 90
+
+                    self.player.move(vec(-1, 0), angle)
+
+                    self.player.last_key_pressed = 'left'
+
+                #IR P/ DIREITA
+                if event.key == pygame.K_RIGHT:
+                    if self.player.last_key_pressed == 'left':
+                        angle = 180
+                    if self.player.last_key_pressed == 'down':
+                        angle = 90
+                    if self.player.last_key_pressed == 'up':
+                        angle = -90
+                        
+                    self.player.move(vec(1, 0), angle)
+
+                    self.player.last_key_pressed = 'right'
+
+                #IR P/ CIMA
+                if event.key == pygame.K_UP:
+                    if self.player.last_key_pressed == 'left':
+                        angle = -90
+                    if self.player.last_key_pressed == 'right':
+                        angle = 90
+                    if self.player.last_key_pressed == 'down':
+                        angle = 180
+
+                    self.player.move(vec(0, -1), angle)
+
+                    self.player.last_key_pressed = 'up'
+                
+                #IR P/ BAIXO
+                if event.key == pygame.K_DOWN:
+                    if self.player.last_key_pressed == 'left':
+                        angle = 90
+                    if self.player.last_key_pressed == 'right':
+                        angle = -90
+                    if self.player.last_key_pressed == 'up':
+                        angle = 180
+
+                    self.player.move(vec(0, 1), angle)
+
+                    self.player.last_key_pressed = 'down'
+
     def playing_update(self):
-        pass
+        self.player.update()
 
     def playing_draw(self):
         self.screen.fill(BLACK)
