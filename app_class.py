@@ -171,8 +171,8 @@ class App:
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER//2,TOP_BOTTOM_BUFFER//2))
         self.draw_coins()
         self.draw_grid()
-        self.draw_text('PONTUAÇÃO ATUAL: 0',
-        self.screen, [60,0], 18, WHITE, START_FONT)
+        self.draw_text('PONTUAÇÃO ATUAL: {}'.format(self.player.current_score),
+                        self.screen, [60,0], 18, WHITE, START_FONT)
         self.draw_text('PONTUAÇÃO MÁXIMA: 0',
         self.screen, [WIDTH//2+60,0], 18, WHITE, START_FONT)
         self.player.draw(self)
