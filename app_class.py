@@ -15,11 +15,13 @@ class App:
         self.state = 'start'
         self.cell_width = MAZE_WIDTH//28
         self.cell_height = MAZE_HEIGHT//30
-        self.player = Player(self, PLAYER_START_POS)
         self.walls = []
         self.coins = []
+        self.p_pos = None
 
         self.load()
+
+        self.player = Player(self, self.p_pos)
 
     def run(self):
         while self.running:
@@ -62,6 +64,8 @@ class App:
                         self.walls.append(vec(xidx, yidx))
                     elif char == "C":
                         self.coins.append(vec(xidx, yidx))
+                    elif char == "P":
+                        self.p_pos = vec(xidx, yidx)
 
     def draw_grid(self):
         for x in range(WIDTH//self.cell_width):
@@ -170,7 +174,7 @@ class App:
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER//2,TOP_BOTTOM_BUFFER//2))
         self.draw_coins()
-        self.draw_grid()
+        #self.draw_grid()
         self.draw_text('PONTUAÇÃO ATUAL: {}'.format(self.player.current_score),
                         self.screen, [60,0], 18, WHITE, START_FONT)
         self.draw_text('PONTUAÇÃO MÁXIMA: 0',
