@@ -17,6 +17,7 @@ class App:
         self.cell_height = MAZE_HEIGHT//30
         self.player = Player(self, PLAYER_START_POS)
         self.walls = []
+        self.coins = []
 
         self.load()
 
@@ -59,6 +60,8 @@ class App:
                 for xidx, char in enumerate(line):
                     if char == "1":
                         self.walls.append(vec(xidx, yidx))
+                    elif char == "C":
+                        self.coins.append(vec(xidx, yidx))
 
     def draw_grid(self):
         for x in range(WIDTH//self.cell_width):
@@ -66,15 +69,20 @@ class App:
             (x*self.cell_width, HEIGHT))
         for x in range(HEIGHT//self.cell_height):
             pygame.draw.line(self.background, GREY, (0, x*self.cell_height),
-            (WIDTH, x*self.cell_height))
+                                                (WIDTH, x*self.cell_height))
 
-       # Teste preenchendo os muros com a cor roxa
-       # for wall in self.walls:
-       #     pygame.draw.rect(self.background, (112, 55, 163), (wall.x*self.cell_width,
-       #                                                        wall.y*self.cell_height, self.cell_width, self.cell_height))
+        # for coin in self.coins:
+        #    pygame.draw.rect(self.background, (167, 179, 34), (coin.x*self.cell_width,
+        #                                                         coin.y*self.cell_height, self.cell_width, self.cell_height))
 
+    def draw_coins(self):
+        for coin in self.coins:
+            pygame.draw.circle(self.screen, (124, 123, 7),
+            (int(coin.x*self.cell_width) + self.cell_width // 2 + TOP_BOTTOM_BUFFER // 2
+            , int(coin.y*self.cell_height) + self.cell_height // 2 + TOP_BOTTOM_BUFFER // 2)
+            ,5)
 
-# ################## # FUNCOES DE INICIO # ################## #
+#####  # FUNCOES DE INICIO # #####
 
     def start_events(self):
         for event in pygame.event.get():
@@ -161,6 +169,7 @@ class App:
     def playing_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER//2,TOP_BOTTOM_BUFFER//2))
+        self.draw_coins()
         self.draw_grid()
         self.draw_text('PONTUAÇÃO ATUAL: 0',
         self.screen, [60,0], 18, WHITE, START_FONT)
