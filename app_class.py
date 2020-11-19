@@ -16,6 +16,7 @@ class App:
         self.cell_width = MAZE_WIDTH//28
         self.cell_height = MAZE_HEIGHT//30
         self.player = Player(self, PLAYER_START_POS)
+        self.walls = []
 
         self.load()
 
@@ -51,6 +52,14 @@ class App:
         self.background = pygame.image.load('maze.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
 
+        # Abrindo arquivo walls
+        # Criando lista de muros com as coordenadas dos muros
+        with open("walls.txt", 'r') as file:
+            for yidx, line in enumerate(file):
+                for xidx, char in enumerate(line):
+                    if char == "1":
+                        self.walls.append(vec(xidx, yidx))
+
     def draw_grid(self):
         for x in range(WIDTH//self.cell_width):
             pygame.draw.line(self.background, GREY, (x*self.cell_width, 0),
@@ -58,6 +67,11 @@ class App:
         for x in range(HEIGHT//self.cell_height):
             pygame.draw.line(self.background, GREY, (0, x*self.cell_height),
             (WIDTH, x*self.cell_height))
+
+       # Teste preenchendo os muros com a cor roxa
+       # for wall in self.walls:
+       #     pygame.draw.rect(self.background, (112, 55, 163), (wall.x*self.cell_width,
+       #                                                        wall.y*self.cell_height, self.cell_width, self.cell_height))
 
 
 # ################## # FUNCOES DE INICIO # ################## #
