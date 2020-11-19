@@ -10,6 +10,7 @@ class Player:
     self.direction = vec(1,0)
     self.stored_direction = None
     self.able_to_move = True
+    self.current_score = 0
 
     self.angle = -90 #Angulo inicial da sprite do Jogador (virada para a direita)
     self.last_key_pressed = 'right' #Direção inicial do Jogador sendo registrada como uma tecla pressionada
@@ -30,6 +31,9 @@ class Player:
     self.grid_pos[0] = (self.pix_pos[0]-TOP_BOTTOM_BUFFER+self.app.cell_width//2)//self.app.cell_width+1
     self.grid_pos[1] = (self.pix_pos[1]-TOP_BOTTOM_BUFFER+self.app.cell_height//2)//self.app.cell_height+1
 
+    if self.on_coin():
+      self.eat_coin()
+
   def draw(self, app):
     self.app = app
     #Inserindo o jogador na tela
@@ -40,6 +44,16 @@ class Player:
     (self.grid_pos[0]*self.app.cell_width+TOP_BOTTOM_BUFFER//2,
      self.grid_pos[1]*self.app.cell_height+TOP_BOTTOM_BUFFER//2, 
      self.app.cell_width, self.app.cell_height), 1)
+
+  def on_coin(self):
+    if self.grid_pos in self.app.coins:
+      return True
+    else:
+      return False
+
+  def eat_coin(self):
+    self.app.coins.remove(self.grid_pos)
+    self.current_score += 1
 
   def move(self, direction, angle):
     #Contem a direcao e o angulo, que vai ser usado para rotacionar a sprite
