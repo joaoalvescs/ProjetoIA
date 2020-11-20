@@ -14,7 +14,7 @@ class Player:
     self.speed = 2
 
     self.angle = -90 #Angulo inicial da sprite do Jogador (virada para a direita)
-    self.last_key_pressed = 'right' #Direção inicial do Jogador sendo registrada como uma tecla pressionada
+    self.last_direction = 'right' #Direção inicial do Jogador sendo registrada
     self.PLAYER_SPRITE = pygame.image.load('./sprites/player.png').convert_alpha()
     self.PLAYER_SPRITE = pygame.transform.scale(self.PLAYER_SPRITE, (self.app.cell_width, self.app.cell_height))
     self.PLAYER_SPRITE = pygame.transform.rotate(self.PLAYER_SPRITE, self.angle)

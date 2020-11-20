@@ -16,7 +16,7 @@ class Enemy:
 
 
         self.angle = -90
-        self.last_key_pressed = 'right'
+        self.last_direction = 'right'
         self.POLICE_SPRITE = pygame.image.load('./sprites/police.png').convert_alpha()
         self.POLICE_SPRITE = pygame.transform.scale(self.POLICE_SPRITE, (self.app.cell_width, self.app.cell_height))
         self.POLICE_SPRITE = pygame.transform.rotate(self.POLICE_SPRITE, self.angle)
