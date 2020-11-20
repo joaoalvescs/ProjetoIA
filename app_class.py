@@ -2,6 +2,7 @@ import pygame
 import sys
 from settings import *
 from player_class import *
+from enemy_class import *
 
 pygame.init()
 vec = pygame.math.Vector2
@@ -13,15 +14,17 @@ class App:
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = 'start'
-        self.cell_width = MAZE_WIDTH//28
-        self.cell_height = MAZE_HEIGHT//30
+        self.cell_width = MAZE_WIDTH // 28
+        self.cell_height = MAZE_HEIGHT // 30
         self.walls = []
         self.coins = []
+        self.enemies = []
+        self.e_pos = []
         self.p_pos = None
-
         self.load()
 
         self.player = Player(self, self.p_pos)
+        self.make_enemies()
 
     def run(self):
         while self.running:
@@ -40,18 +43,18 @@ class App:
         pygame.quit()
         sys.exit()
 
-# ################## # FUNCOES AUXILIARES # ################## #
+    # ################## # FUNCOES AUXILIARES # ################## #
 
     def draw_text(self, words, screen, pos, size, color, font_name, centered=False):
         font = pygame.font.SysFont(font_name, size)
         text = font.render(words, False, color)
         text_size = text.get_size()
         if centered:
-            pos[0] = pos[0]-text_size[0]//2
-            pos[1] = pos[1]-text_size[1]//2
+            pos[0] = pos[0] - text_size[0] // 2
+            pos[1] = pos[1] - text_size[1] // 2
         screen.blit(text, pos)
-    
-    def load(self): 
+
+    def load(self):
         self.background = pygame.image.load('maze.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
 
@@ -66,14 +69,23 @@ class App:
                         self.coins.append(vec(xidx, yidx))
                     elif char == "P":
                         self.p_pos = vec(xidx, yidx)
+                    elif char in ["2", "3", "4", "5"]:
+                        self.e_pos.append(vec(xidx, yidx))
+                    elif char == "B":
+                        pygame.draw.rect(self.background, BLACK, (xidx*self.cell_width, yidx*self.cell_height,
+                                                                  self.cell_width, self.cell_height))
+
+    def make_enemies(self):
+        for idx, pos in enumerate(self.e_pos):
+             self.enemies.append(Enemy(self, pos, idx))
 
     def draw_grid(self):
-        for x in range(WIDTH//self.cell_width):
-            pygame.draw.line(self.background, GREY, (x*self.cell_width, 0),
-            (x*self.cell_width, HEIGHT))
-        for x in range(HEIGHT//self.cell_height):
-            pygame.draw.line(self.background, GREY, (0, x*self.cell_height),
-                                                (WIDTH, x*self.cell_height))
+        for x in range(WIDTH // self.cell_width):
+            pygame.draw.line(self.background, GREY, (x * self.cell_width, 0),
+                             (x * self.cell_width, HEIGHT))
+        for x in range(HEIGHT // self.cell_height):
+            pygame.draw.line(self.background, GREY, (0, x * self.cell_height),
+                             (WIDTH, x * self.cell_height))
 
         # for coin in self.coins:
         #    pygame.draw.rect(self.background, (167, 179, 34), (coin.x*self.cell_width,
@@ -82,11 +94,11 @@ class App:
     def draw_coins(self):
         for coin in self.coins:
             pygame.draw.circle(self.screen, (124, 123, 7),
-            (int(coin.x*self.cell_width) + self.cell_width // 2 + TOP_BOTTOM_BUFFER // 2
-            , int(coin.y*self.cell_height) + self.cell_height // 2 + TOP_BOTTOM_BUFFER // 2)
-            ,5)
+                               (int(coin.x * self.cell_width) + self.cell_width // 2 + TOP_BOTTOM_BUFFER // 2
+                                , int(coin.y * self.cell_height) + self.cell_height // 2 + TOP_BOTTOM_BUFFER // 2)
+                               , 5)
 
-#####  # FUNCOES DE INICIO # #####
+    #####  # FUNCOES DE INICIO # #####
 
     def start_events(self):
         for event in pygame.event.get():
@@ -101,12 +113,14 @@ class App:
 
     def start_draw(self):
         self.screen.fill(BLACK)
-        self.draw_text('APERTE A BARRA DE ESPAÇO', self.screen, [WIDTH//2, HEIGHT//2-50], START_TEXT_SIZE, (170, 132, 58), START_FONT, centered=True)
-        self.draw_text('APENAS 1 JOGADOR', self.screen, [WIDTH//2, HEIGHT//2+50], START_TEXT_SIZE, (44, 167, 198), START_FONT, centered=True)
-        self.draw_text('PONTUAÇÃO', self.screen, [4,0], START_TEXT_SIZE, (255, 255, 255), START_FONT)
+        self.draw_text('APERTE A BARRA DE ESPAÇO', self.screen, [WIDTH // 2, HEIGHT // 2 - 50], START_TEXT_SIZE,
+                       (170, 132, 58), START_FONT, centered=True)
+        self.draw_text('APENAS 1 JOGADOR', self.screen, [WIDTH // 2, HEIGHT // 2 + 50], START_TEXT_SIZE, (44, 167, 198),
+                       START_FONT, centered=True)
+        self.draw_text('PONTUAÇÃO', self.screen, [4, 0], START_TEXT_SIZE, (255, 255, 255), START_FONT)
         pygame.display.update()
 
-# ################## # FUNCOES DE JOGAR # ################## #
+    # ################## # FUNCOES DE JOGAR # ################## #
 
     def playing_events(self):
         for event in pygame.event.get():
@@ -115,7 +129,7 @@ class App:
 
             if event.type == pygame.KEYDOWN:
                 angle = 0
-                #IR P/ ESQUERDA
+                # IR P/ ESQUERDA
                 if event.key == pygame.K_LEFT:
                     if self.player.last_key_pressed == 'right':
                         angle = -180
@@ -128,7 +142,7 @@ class App:
 
                     self.player.last_key_pressed = 'left'
 
-                #IR P/ DIREITA
+                # IR P/ DIREITA
                 if event.key == pygame.K_RIGHT:
                     if self.player.last_key_pressed == 'left':
                         angle = 180
@@ -136,12 +150,12 @@ class App:
                         angle = 90
                     if self.player.last_key_pressed == 'up':
                         angle = -90
-                        
+
                     self.player.move(vec(1, 0), angle)
 
                     self.player.last_key_pressed = 'right'
 
-                #IR P/ CIMA
+                # IR P/ CIMA
                 if event.key == pygame.K_UP:
                     if self.player.last_key_pressed == 'left':
                         angle = -90
@@ -153,8 +167,8 @@ class App:
                     self.player.move(vec(0, -1), angle)
 
                     self.player.last_key_pressed = 'up'
-                
-                #IR P/ BAIXO
+
+                # IR P/ BAIXO
                 if event.key == pygame.K_DOWN:
                     if self.player.last_key_pressed == 'left':
                         angle = 90
@@ -169,15 +183,19 @@ class App:
 
     def playing_update(self):
         self.player.update()
+        for enemy in self.enemies:
+            enemy.update()
 
     def playing_draw(self):
         self.screen.fill(BLACK)
-        self.screen.blit(self.background, (TOP_BOTTOM_BUFFER//2,TOP_BOTTOM_BUFFER//2))
+        self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
-        #self.draw_grid()
+        # self.draw_grid()
         self.draw_text('PONTUAÇÃO ATUAL: {}'.format(self.player.current_score),
-                        self.screen, [60,0], 18, WHITE, START_FONT)
+                       self.screen, [60, 0], 18, WHITE, START_FONT)
         self.draw_text('PONTUAÇÃO MÁXIMA: 0',
-        self.screen, [WIDTH//2+60,0], 18, WHITE, START_FONT)
+                       self.screen, [WIDTH // 2 + 60, 0], 18, WHITE, START_FONT)
         self.player.draw(self)
+        for enemy in self.enemies:
+            enemy.draw(self)
         pygame.display.update()

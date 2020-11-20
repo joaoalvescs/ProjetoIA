@@ -11,6 +11,7 @@ class Player:
     self.stored_direction = None
     self.able_to_move = True
     self.current_score = 0
+    self.speed = 2
 
     self.angle = -90 #Angulo inicial da sprite do Jogador (virada para a direita)
     self.last_key_pressed = 'right' #Direção inicial do Jogador sendo registrada como uma tecla pressionada
@@ -21,7 +22,7 @@ class Player:
 
   def update(self):
     if self.able_to_move:
-      self.pix_pos += self.direction
+      self.pix_pos += self.direction*self.speed
     # Mover-se apenas dentro do grid
     if self.time_to_move():
         if self.stored_direction != None:
