@@ -14,8 +14,8 @@ class App:
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = 'start'
-        self.cell_width = MAZE_WIDTH // 28
-        self.cell_height = MAZE_HEIGHT // 30
+        self.cell_width = MAZE_WIDTH//COLS
+        self.cell_height = MAZE_HEIGHT//ROWS
         self.walls = []
         self.coins = []
         self.enemies = []
