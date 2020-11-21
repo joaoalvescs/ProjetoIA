@@ -19,4 +19,4 @@ START_FONT = 'arial black'
 
 # configs do jogador
 #PLAYER_START_POS = 0
-# mob configuraçoes
+# mob configuracoes

@@ -14,7 +14,7 @@ class Player:
     self.speed = 2
 
     self.angle = -90 #Angulo inicial da sprite do Jogador (virada para a direita)
-    self.last_direction = 'right' #Direção inicial do Jogador sendo registrada
+    self.last_direction = 'right' #Direcao inicial do Jogador sendo registrada
     self.PLAYER_SPRITE = pygame.image.load('./sprites/player.png').convert_alpha()
     self.PLAYER_SPRITE = pygame.transform.scale(self.PLAYER_SPRITE, (self.app.cell_width, self.app.cell_height))
     self.PLAYER_SPRITE = pygame.transform.rotate(self.PLAYER_SPRITE, self.angle)
@@ -28,7 +28,7 @@ class Player:
         if self.stored_direction != None:
           self.direction = self.stored_direction
         self.able_to_move = self.can_move()
-    # Configurando grid_pos em relação a pix_pos
+    # Configurando grid_pos em relacao a pix_pos
     self.grid_pos[0] = (self.pix_pos[0]-TOP_BOTTOM_BUFFER+self.app.cell_width//2)//self.app.cell_width+1
     self.grid_pos[1] = (self.pix_pos[1]-TOP_BOTTOM_BUFFER+self.app.cell_height//2)//self.app.cell_height+1
 

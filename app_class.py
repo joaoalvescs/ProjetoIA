@@ -113,11 +113,11 @@ class App:
 
     def start_draw(self):
         self.screen.fill(BLACK)
-        self.draw_text('APERTE A BARRA DE ESPAÇO', self.screen, [WIDTH // 2, HEIGHT // 2 - 50], START_TEXT_SIZE,
+        self.draw_text('APERTE A BARRA DE ESPACO', self.screen, [WIDTH // 2, HEIGHT // 2 - 50], START_TEXT_SIZE,
                        (170, 132, 58), START_FONT, centered=True)
         self.draw_text('APENAS 1 JOGADOR', self.screen, [WIDTH // 2, HEIGHT // 2 + 50], START_TEXT_SIZE, (44, 167, 198),
                        START_FONT, centered=True)
-        self.draw_text('PONTUAÇÃO', self.screen, [4, 0], START_TEXT_SIZE, (255, 255, 255), START_FONT)
+        self.draw_text('PONTUACAO', self.screen, [4, 0], START_TEXT_SIZE, (255, 255, 255), START_FONT)
         pygame.display.update()
 
     # ################## # FUNCOES DE JOGAR # ################## #
@@ -191,9 +191,9 @@ class App:
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
         # self.draw_grid()
-        self.draw_text('PONTUAÇÃO ATUAL: {}'.format(self.player.current_score),
+        self.draw_text('PONTUACAOO ATUAL: {}'.format(self.player.current_score),
                        self.screen, [60, 0], 18, WHITE, START_FONT)
-        self.draw_text('PONTUAÇÃO MÁXIMA: 0',
+        self.draw_text('PONTUACAO MAXIMA: 0',
                        self.screen, [WIDTH // 2 + 60, 0], 18, WHITE, START_FONT)
         self.player.draw(self)
         for enemy in self.enemies:
