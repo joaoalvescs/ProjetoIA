@@ -88,10 +88,62 @@ class Enemy:
         if self.personality == "scared":
             self.direction = self.get_path_direction(self.target)
 
+    def rotate_enemy(self, come_direction):
+        angle = 0
+        # IR P/ ESQUERDA
+        if come_direction == vec(-1,0):
+            if self.last_direction == 'right':
+                angle = -180
+            if self.last_direction == 'down':
+                angle = -90
+            if self.last_direction == 'up':
+                angle = 90
+
+            self.POLICE_SPRITE = pygame.transform.rotate(self.POLICE_SPRITE, angle)
+            self.last_direction = 'left'
+
+        # IR P/ DIREITA
+        if come_direction == vec(1,0):
+            if self.last_direction == 'left':
+                angle = 180
+            if self.last_direction == 'down':
+                angle = 90
+            if self.last_direction == 'up':
+                angle = -90
+
+            self.POLICE_SPRITE = pygame.transform.rotate(self.POLICE_SPRITE, angle)
+            self.last_direction = 'right'
+
+        # IR P/ CIMA
+        if come_direction == vec(0,-1):
+            if self.last_direction == 'left':
+                angle = -90
+            if self.last_direction == 'right':
+                angle = 90
+            if self.last_direction == 'down':
+                angle = 180
+
+            self.POLICE_SPRITE = pygame.transform.rotate(self.POLICE_SPRITE, angle)
+            self.last_direction = 'up'
+
+        # IR P/ BAIXO
+        if come_direction == vec(0,1):
+            if self.last_direction == 'left':
+                angle = 90
+            if self.last_direction == 'right':
+                angle = -90
+            if self.last_direction == 'up':
+                angle = 180
+
+            self.POLICE_SPRITE = pygame.transform.rotate(self.POLICE_SPRITE, angle)
+            self.last_direction = 'down'
+
     def get_path_direction(self, target):
         next_cell = self.find_next_cell_in_path(target)
         xdir = next_cell[0] - self.grid_pos[0]
         ydir = next_cell[1] - self.grid_pos[1]
+        self.rotate_enemy(vec(xdir, ydir))
+
         return vec(xdir, ydir)
 
     def find_next_cell_in_path(self, target):
