@@ -1,6 +1,9 @@
 
 import random
 from settings import *
+from pathfinding.core.diagonal_movement import DiagonalMovement
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 
 vec = pygame.math.Vector2
 
@@ -147,9 +150,25 @@ class Enemy:
         return vec(xdir, ydir)
 
     def find_next_cell_in_path(self, target):
-        path = self.BFS([int(self.grid_pos.x), int(self.grid_pos.y)], [
+        path = self.STAR_ALGORITMO([int(self.grid_pos.x), int(self.grid_pos.y)], [
                          int(target[0]), int(target[1])])
         return path[1]
+
+    def STAR_ALGORITMO(self, start, target):
+        grid = [[1 for x in range(28)] for x in range(30)]
+        for cell in self.app.walls:
+            if cell.x < 28 and cell.y < 30:
+                grid[int(cell.y)][int(cell.x)] = 0
+        
+        # print(grid)
+        matrix = Grid(matrix=grid)
+        # print('start:' + str(start))
+        start = matrix.node(start[0], start[1])
+        target = matrix.node(target[0], target[1])
+        finder = AStarFinder()
+        path, runs = finder.find_path(start, target, matrix)
+
+        return path
 
     def BFS(self, start, target):
         grid = [[0 for x in range(28)] for x in range(30)]
