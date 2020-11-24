@@ -1,11 +1,14 @@
 import pygame
 import sys
+import os
 import copy
 from settings import *
 from player_class import *
 from enemy_class import *
 
 pygame.init()
+pygame.display.set_caption('Projeto I IA - A*')
+mixer = pygame.mixer
 vec = pygame.math.Vector2
 
 
@@ -22,6 +25,7 @@ class App:
         self.enemies = []
         self.e_pos = []
         self.p_pos = None
+        self.music_state = 'playing'
         self.load()
 
         self.player = Player(self, vec(self.p_pos))
@@ -62,6 +66,9 @@ class App:
     def load(self):
         self.background = pygame.image.load('maze.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
+
+        mixer.music.load('bg_sound.mp3')
+        mixer.music.play(-1)
 
         # Abrindo arquivo walls
         # Criando lista de muros com as coordenadas dos muros
@@ -132,6 +139,14 @@ class App:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.state = 'playing'
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                if self.music_state == 'playing':
+                    mixer.music.pause()
+                    self.music_state = 'paused'
+                elif self.music_state == 'paused':
+                    mixer.music.unpause()
+                    self.music_state = 'playing'
+
     def start_update(self):
         pass
 
@@ -141,7 +156,9 @@ class App:
                        (170, 132, 58), START_FONT, centered=True)
         self.draw_text('APENAS 1 JOGADOR', self.screen, [WIDTH // 2, HEIGHT // 2 + 50], START_TEXT_SIZE, (44, 167, 198),
                        START_FONT, centered=True)
-        self.draw_text('PONTUACAO', self.screen, [4, 0], START_TEXT_SIZE, (255, 255, 255), START_FONT)
+        self.draw_text('PONTUACAO', self.screen, [4, 0], 14, (255, 255, 255), START_FONT)
+        self.draw_text('APERTE S PARA DESATIVAR/ATIVAR A MÚSICA', self.screen, [WIDTH -220, HEIGHT -20], START_TEXT_SIZE,
+                       (255, 255, 255), START_FONT, centered=True)
         pygame.display.update()
 
     # ################## # FUNCOES DE JOGAR # ################## #

@@ -43,10 +43,10 @@ class Player:
     app.screen.blit(self.PLAYER_SPRITE, (int(self.pix_pos.x-10), int(self.pix_pos.y-10)))
 
     #Inserindo o retangulo referente a grid_pos
-    pygame.draw.rect(self.app.screen, RED,
-    (self.grid_pos[0]*self.app.cell_width+TOP_BOTTOM_BUFFER//2,
-     self.grid_pos[1]*self.app.cell_height+TOP_BOTTOM_BUFFER//2, 
-     self.app.cell_width, self.app.cell_height), 1)
+    # pygame.draw.rect(self.app.screen, RED,
+    # (self.grid_pos[0]*self.app.cell_width+TOP_BOTTOM_BUFFER//2,
+    #  self.grid_pos[1]*self.app.cell_height+TOP_BOTTOM_BUFFER//2, 
+    #  self.app.cell_width, self.app.cell_height), 1)
     
     # Colocando vidas para o jogador
     for x in range(self.lives):
