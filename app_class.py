@@ -67,7 +67,7 @@ class App:
         self.background = pygame.image.load('maze.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
 
-        mixer.music.load('bg_sound.mp3')
+        mixer.music.load('bg_sound.ogg')
         mixer.music.play(-1)
 
         # Abrindo arquivo walls
