@@ -236,7 +236,7 @@ class App:
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
         # self.draw_grid()
-        self.draw_text('PONTUACAOO ATUAL: {}'.format(self.player.current_score),
+        self.draw_text('PONTUACAO ATUAL: {}'.format(self.player.current_score),
                        self.screen, [60, 0], 18, WHITE, START_FONT)
         self.draw_text('PONTUACAO MAXIMA: 0',
                        self.screen, [WIDTH // 2 + 60, 0], 18, WHITE, START_FONT)
